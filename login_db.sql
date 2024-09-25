@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2024 at 03:23 PM
+-- Generation Time: Sep 25, 2024 at 04:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,6 +79,27 @@ CREATE TABLE `bill` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `doctors`
+--
+
+CREATE TABLE `doctors` (
+  `e_id` int(11) NOT NULL,
+  `specialty` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `doctors`
+--
+
+INSERT INTO `doctors` (`e_id`, `specialty`) VALUES
+(6, 'Gastroliver'),
+(7, 'Cancer'),
+(8, 'Licensed Counselor'),
+(9, 'Neurologist');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employees`
 --
 
@@ -98,7 +119,11 @@ INSERT INTO `employees` (`id`, `name`, `phone`, `address`) VALUES
 (2, 'Farisa', '555-0123', '123 Oak Street, Springfield'),
 (3, 'Richi', '555-0456', '456 Maple Avenue, Springfield'),
 (4, 'Farin', '555-0789', '789 Elm Road, Springfield'),
-(5, 'Rubab', '555-1011', '321 Pine Lane, Springfield');
+(5, 'Rubab', '555-1011', '321 Pine Lane, Springfield'),
+(6, 'Dr. Shamim Hasan', '1234567890', '123 Main St, City'),
+(7, 'Dr. Imran Azad', '1234567891', '456 Side St, City'),
+(8, 'Dr. Emily Rahman', '1234567892', '789 Elm St, City'),
+(9, 'Dr. Mark Johnson', '1234567893', '321 Oak St, City');
 
 -- --------------------------------------------------------
 
@@ -241,6 +266,12 @@ ALTER TABLE `bill`
   ADD KEY `patient_id` (`patient_id`);
 
 --
+-- Indexes for table `doctors`
+--
+ALTER TABLE `doctors`
+  ADD PRIMARY KEY (`e_id`);
+
+--
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
@@ -301,7 +332,7 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `nurses`
@@ -355,6 +386,12 @@ ALTER TABLE `appointments`
 ALTER TABLE `bill`
   ADD CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`room_no`) REFERENCES `rooms` (`room_no`),
   ADD CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`);
+
+--
+-- Constraints for table `doctors`
+--
+ALTER TABLE `doctors`
+  ADD CONSTRAINT `doctors_ibfk_1` FOREIGN KEY (`e_id`) REFERENCES `employees` (`id`);
 
 --
 -- Constraints for table `nurses`
