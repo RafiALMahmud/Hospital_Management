@@ -2,7 +2,7 @@
 include("connection.php"); // Database connection
 
 // Fetching reviews from the database
-$query = "SELECT name_of_the_counselor, review FROM reviews";
+$query = "SELECT review_id, name_of_the_counselor, review FROM reviews";
 $result = mysqli_query($con, $query);
 
 ?>
@@ -16,6 +16,12 @@ $result = mysqli_query($con, $query);
             <div class="review-card">
                 <h4 class="counselor-name"><?php echo htmlspecialchars($row['name_of_the_counselor']); ?></h4>
                 <p class="review-text">"<?php echo htmlspecialchars($row['review']); ?>"</p>
+                
+                <!-- Delete Button -->
+                <form action="delete_review.php" method="POST" style="display: inline-block;">
+                    <input type="hidden" name="review_id" value="<?php echo $row['review_id']; ?>">
+                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this review?');">Delete</button>
+                </form>
             </div>
             <?php
         }
@@ -27,6 +33,7 @@ $result = mysqli_query($con, $query);
     mysqli_close($con);
     ?>
 </div>
+
 <style type="text/css">
 /* Reviews Styling */
 .reviews-wrapper {
@@ -64,3 +71,19 @@ $result = mysqli_query($con, $query);
     font-size: 1.2rem;
     color: #999;
 }
+
+.delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+</style>
