@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Fetch the patient ID
             $stmt->bind_result($patient_id);
             $stmt->fetch();
+            $stmt->close(); // Close the statement here
             
             // Check if the patient is already admitted to a room
             $stmt = $conn->prepare("SELECT room_no FROM rooms WHERE patient_id = ?");
@@ -45,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error_message = "Patient is already admitted to a room!";
             } else {
                 // Check if the room is already booked
+                $stmt->close(); // Close the previous statement
                 $stmt = $conn->prepare("SELECT room_no FROM rooms WHERE room_no = ?");
                 $stmt->bind_param("s", $room_no);
                 $stmt->execute();
@@ -53,11 +55,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt->num_rows > 0) {
                     $error_message = "Room already booked!";
                 } else {
+                    // Get a nurse ID (assigning only one nurse for the room)
+                    $stmt->close(); // Close the previous statement
+                    $stmt = $conn->prepare("SELECT nurse_id FROM nurses ORDER BY RAND() LIMIT 1");
+                    $stmt->execute();
+                    $stmt->bind_result($nurse_id);
+                    $stmt->fetch();
+                    $stmt->close(); // Close the nurse selection statement
+                    
                     // Admit the patient into the room
-                    $stmt = $conn->prepare("INSERT INTO rooms (room_no, type, patient_id) VALUES (?, ?, ?)");
-                    $stmt->bind_param("ssi", $room_no, $room_type, $patient_id);
+                    $stmt = $conn->prepare("INSERT INTO rooms (room_no, type, patient_id, nurse_id) VALUES (?, ?, ?, ?)");
+                    $stmt->bind_param("ssii", $room_no, $room_type, $patient_id, $nurse_id);
+                    
                     if ($stmt->execute()) {
-                        $success_message = "Patient admitted successfully!";
+                        // Fetch the nurse's name based on the assigned nurse_id
+                        $stmt->close(); // Close the previous insert statement
+                        $stmt = $conn->prepare("SELECT nurse_name FROM nurses WHERE nurse_id = ?");
+                        $stmt->bind_param("i", $nurse_id);
+                        $stmt->execute();
+                        $stmt->bind_result($nurse_name);
+                        $stmt->fetch();
+                        
+                        $success_message = "Patient admitted successfully! Assigned Nurse: $nurse_name";
                     } else {
                         $error_message = "Error admitting patient: " . $stmt->error;
                     }
@@ -122,6 +141,8 @@ $conn->close();
 
 </body>
 </html>
+
+
 
 <style type="text/css">
     /* General body styling */
