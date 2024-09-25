@@ -137,7 +137,7 @@ if ($result && $result->num_rows > 0) {
         <h1>Admin Dashboard</h1>
         <p class="welcome-message">Welcome to the Admin Dashboard, <?php echo htmlspecialchars($admin_data['name']); ?>!</p>
 
-        <!-- Add Patient to Room Button (Updated to redirect to admit_patient.php) -->
+        <!-- Admit Patient Button -->
         <div class="action-container">
             <a href="admit_patient.php" class="action-btn">Admit Patient</a>
         </div>
@@ -145,6 +145,11 @@ if ($result && $result->num_rows > 0) {
         <!-- Add Patient Button -->
         <div class="action-container">
             <a href="signup.php" class="action-btn">Add Patient</a>
+        </div>
+
+        <!-- Manage Appointments Button -->
+        <div class="action-container">
+            <a href="admin_appointmentsview.php" class="action-btn">Manage Appointments</a>
         </div>
     </div>
 </body>

@@ -55,6 +55,14 @@ $page = basename($_SERVER['PHP_SELF']); // Get current page name
             <p>View your billing details.</p>
             <button><a href="http://localhost/sax/bills.php">My Bills</a></button>
         </section>
+
+        <!-- New Button: See My Appointments -->
+        <section class="action" id="see-my-appointments">
+            <h3>See My Appointments</h3>
+            <p>Check your scheduled appointments.</p>
+            <button><a href="http://localhost/sax/get_appointments.php">See My Appointments</a></button>
+        </section>
+
     </section>
 
 </body>
