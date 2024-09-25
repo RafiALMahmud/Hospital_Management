@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2024 at 01:54 AM
+-- Generation Time: Sep 25, 2024 at 03:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -94,7 +94,33 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `name`, `phone`, `address`) VALUES
-(1, 'Rafi', '+8801974624144', '123 Main St');
+(1, 'Rafi', '+8801974624144', '123 Main St'),
+(2, 'Farisa', '555-0123', '123 Oak Street, Springfield'),
+(3, 'Richi', '555-0456', '456 Maple Avenue, Springfield'),
+(4, 'Farin', '555-0789', '789 Elm Road, Springfield'),
+(5, 'Rubab', '555-1011', '321 Pine Lane, Springfield');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nurses`
+--
+
+CREATE TABLE `nurses` (
+  `nurse_id` int(11) NOT NULL,
+  `nurse_name` varchar(100) NOT NULL,
+  `e_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `nurses`
+--
+
+INSERT INTO `nurses` (`nurse_id`, `nurse_name`, `e_id`) VALUES
+(1, 'Farisa', 2),
+(2, 'Richi', 3),
+(3, 'Farin', 4),
+(4, 'Rubab', 5);
 
 -- --------------------------------------------------------
 
@@ -116,7 +142,8 @@ CREATE TABLE `patients` (
 INSERT INTO `patients` (`patient_id`, `name`, `age`, `user_ID`) VALUES
 (1, 'alif', 70, 1),
 (2, 'jj', 20, 3),
-(3, 'messi', 40, 4);
+(3, 'messi', 40, 4),
+(4, 'Bbg', 20, 5);
 
 -- --------------------------------------------------------
 
@@ -148,15 +175,19 @@ CREATE TABLE `rooms` (
   `type` varchar(50) DEFAULT NULL,
   `patient_id` int(11) DEFAULT NULL,
   `admitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `discharge_time` datetime DEFAULT NULL
+  `discharge_time` datetime DEFAULT NULL,
+  `nurse_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`room_no`, `type`, `patient_id`, `admitted_at`, `discharge_time`) VALUES
-(105, 'AC', 1, '2024-09-24 22:52:00', NULL);
+INSERT INTO `rooms` (`room_no`, `type`, `patient_id`, `admitted_at`, `discharge_time`, `nurse_id`) VALUES
+(105, 'AC', 1, '2024-09-24 22:52:00', NULL, 1),
+(106, 'AC', 3, '2024-09-25 13:14:43', NULL, 2),
+(107, 'AC', 4, '2024-09-25 13:16:19', NULL, 3),
+(108, 'AC', 2, '2024-09-25 12:48:00', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -180,7 +211,8 @@ INSERT INTO `users` (`ID`, `user_name`, `password`, `user_type`, `email`) VALUES
 (1, 'alif', '12', 'Patient', NULL),
 (2, 'Rafi', '008', 'Admin', NULL),
 (3, 'jj', '50', 'Patient', NULL),
-(4, 'messi', '10', 'Patient', NULL);
+(4, 'messi', '10', 'Patient', NULL),
+(5, 'Bbg', '10', 'Patient', NULL);
 
 --
 -- Indexes for dumped tables
@@ -215,6 +247,13 @@ ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `nurses`
+--
+ALTER TABLE `nurses`
+  ADD PRIMARY KEY (`nurse_id`),
+  ADD KEY `e_id` (`e_id`);
+
+--
 -- Indexes for table `patients`
 --
 ALTER TABLE `patients`
@@ -232,7 +271,8 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `rooms`
   ADD PRIMARY KEY (`room_no`),
-  ADD KEY `patient_id` (`patient_id`);
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `nurse_id` (`nurse_id`);
 
 --
 -- Indexes for table `users`
@@ -261,13 +301,19 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `nurses`
+--
+ALTER TABLE `nurses`
+  MODIFY `nurse_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -285,7 +331,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -311,6 +357,12 @@ ALTER TABLE `bill`
   ADD CONSTRAINT `bill_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`);
 
 --
+-- Constraints for table `nurses`
+--
+ALTER TABLE `nurses`
+  ADD CONSTRAINT `nurses_ibfk_1` FOREIGN KEY (`e_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `patients`
 --
 ALTER TABLE `patients`
@@ -320,7 +372,8 @@ ALTER TABLE `patients`
 -- Constraints for table `rooms`
 --
 ALTER TABLE `rooms`
-  ADD CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`);
+  ADD CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`),
+  ADD CONSTRAINT `rooms_ibfk_2` FOREIGN KEY (`nurse_id`) REFERENCES `nurses` (`nurse_id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
