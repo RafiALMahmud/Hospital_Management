@@ -48,9 +48,10 @@ if (isset($_POST['patient_name'])) {
                             // Calculate charges for full days
                             $daily_rate = ($row['room_type'] == 'AC') ? 10000 : 7000;
                             $amount = $daily_rate * $days;
-                            // Check if there's a partial day
+                            // Check if there's a partial day and charge per hour
                             if ($hours % 24 > 0) {
-                                $amount += ($row['room_type'] == 'AC') ? 10000 : 7000; // Add partial day charge
+                                $partial_hours = $hours % 24;
+                                $amount += ($row['room_type'] == 'AC') ? 550 * $partial_hours : 400 * $partial_hours; // Add partial day charge per hour
                             }
                         }
 
@@ -110,7 +111,7 @@ mysqli_close($con);
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #e9ecef; /* Changed background color */
+            background-color: #e9ecef;
         }
         .container {
             max-width: 800px;
@@ -118,15 +119,15 @@ mysqli_close($con);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: transparent; /* Removed white background */
+            background-color: transparent;
         }
         h2 {
             color: #333;
-            text-align: center; /* Centered the heading */
+            text-align: center;
         }
         form {
             margin-bottom: 20px;
-            text-align: center; /* Centered the form elements */
+            text-align: center;
         }
         label {
             display: block;
@@ -137,13 +138,13 @@ mysqli_close($con);
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            width: 80%; /* Adjusted width */
-            max-width: 300px; /* Maximum width for input */
-            margin: 0 auto; /* Centered the input field */
+            width: 80%;
+            max-width: 300px;
+            margin: 0 auto;
         }
         button {
             padding: 10px 20px;
-            background-color: #007bff; /* Primary button color */
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
@@ -151,12 +152,12 @@ mysqli_close($con);
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #0056b3;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px; /* Added margin for spacing */
+            margin-top: 20px;
         }
         th, td {
             padding: 12px;
@@ -166,6 +167,11 @@ mysqli_close($con);
         th {
             background-color: #007bff;
             color: white;
+        }
+        .home-btn {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
         }
     </style>
 </head>
@@ -206,6 +212,11 @@ mysqli_close($con);
         <?php else: ?>
             <p>No bills available.</p>
         <?php endif; ?>
+
+        <!-- Home Button -->
+        <div class="home-btn">
+            <a href="actions.php"><button>Home</button></a>
+        </div>
     </div>
 </body>
 </html>
