@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("connection.php"); // Assuming this is your DB connection file
+include("connection.php"); 
 
 // Fetching reviews from the database
 $query = "SELECT name_of_the_counselor, review FROM reviews";
@@ -82,7 +82,7 @@ $result = mysqli_query($con, $query);
 
 
 <?php
-// Closing the database connection
+
 mysqli_close($con);
 ?>
 
