@@ -18,14 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $user_data = mysqli_fetch_assoc($result);
                 
                 if ($user_data['password'] === $password) {
-                    $_SESSION['user_ID'] = $user_data['ID']; // Use the user's ID
-                    echo "User ID set in session: " . $_SESSION['user_ID']; // Display message
+                    $_SESSION['user_ID'] = $user_data['ID']; 
+                    echo "User ID set in session: " . $_SESSION['user_ID']; 
 
-                    // Redirect based on user type
                     if ($user_data['user_type'] === 'Admin') {
-                        header("Location: admin.php"); // Redirect to admin page
+                        header("Location: admin.php"); 
                     } else if ($user_data['user_type'] === 'Patient') {
-                        header("Location: index.php"); // Redirect to index page
+                        header("Location: index.php"); 
                     } else {
                         echo "Unknown user type.";
                     }
