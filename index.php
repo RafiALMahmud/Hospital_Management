@@ -38,7 +38,7 @@ $result = mysqli_query($con, $query);
 
         <div class="buttons">
             <button><a href="http://localhost/sax/experts.php">Find Experts</a></button>
-            <button><a href="http://localhost/sax/actions.php">Patient</a></button> <!-- New Patient Button -->
+            <button><a href="http://localhost/sax/actions.php">Patient</a></button> 
         </div>
     </div>
 </section>
@@ -82,7 +82,6 @@ $result = mysqli_query($con, $query);
 
 
 <?php
-
 mysqli_close($con);
 ?>
 
