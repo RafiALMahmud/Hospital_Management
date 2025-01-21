@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2025 at 05:51 PM
+-- Generation Time: Jan 21, 2025 at 05:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,17 +58,6 @@ CREATE TABLE `appointments` (
   `doctor_id` int(11) DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`serial_number`, `patient_id`, `patient_name`, `counselor_name`, `appointment_date`, `message`, `appointment_time`, `end_time`, `doctor_id`, `phone_number`) VALUES
-(30, 17, 'Suki', 'Dr. Dummy Doctor', '2025-01-15', '', '21:46:00', '22:16:00', 1, '0121546541'),
-(31, 17, 'Suki', 'Dr. Dummy Doctor', '2025-01-15', '', '21:46:00', '22:16:00', 1, '0121546541'),
-(32, 17, 'Suki', 'Megh', '2025-01-06', 'dd', '14:55:00', '15:25:00', 2, '0121546541'),
-(33, 17, 'Suki', 'Dr. Dummy Doctor', '2025-01-15', '', '21:52:00', '22:22:00', 1, '0121546541'),
-(34, 17, 'Suki', 'Dr. Dummy Doctor', '2025-01-15', '', '22:12:00', '22:42:00', 1, '0121546541');
 
 --
 -- Triggers `appointments`
@@ -214,8 +203,7 @@ INSERT INTO `patients` (`patient_id`, `name`, `age`, `user_ID`) VALUES
 (13, 'k', 80, 17),
 (14, 'z', 26, 22),
 (15, 'ka', 12, 23),
-(16, 'R', 20, 24),
-(17, 'Suki', 20, 29);
+(16, 'R', 20, 24);
 
 -- --------------------------------------------------------
 
@@ -294,8 +282,7 @@ INSERT INTO `users` (`ID`, `user_name`, `password`, `user_type`) VALUES
 (25, 'Megh', '$2y$10$UMdyPwl6LVQU9tf6n84w/OQaJEE5RBuXZczg2389xExQZgNStQfy6', 'Doctor'),
 (26, 'Headsuoup', '$2y$10$6McsVkQTfA.SKqk.oASC1u4ovv1ZZtnv6WfsBWkk9k75UflsrUBte', 'Doctor'),
 (27, 'Headsuoup', '$2y$10$W.jj4Fy8aa5vyZ18ZY/cpeFlNmy0mxNjwyEu3EFKpUq0Qo7r7BYvK', 'Doctor'),
-(28, 'Headsuoup', '$2y$10$x2vLUAwqTliByW.rRTUMXeao809IV2lNn91m7x2P4jQS9hNTbzUnS', 'Doctor'),
-(29, 'Suki', '$2y$10$Fg24E1cAmWqGkWd.PJE1H.BkD.357cwLPZJJ5du4tSUqI/rKgRoW6', 'Patient');
+(28, 'Headsuoup', '$2y$10$x2vLUAwqTliByW.rRTUMXeao809IV2lNn91m7x2P4jQS9hNTbzUnS', 'Doctor');
 
 --
 -- Indexes for dumped tables
