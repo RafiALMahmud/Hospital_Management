@@ -1,6 +1,12 @@
 <?php
 session_start();
-include("connection.php"); 
+include("connection.php"); // Assuming this is your DB connection file
+
+// Check if the user or admin is logged in
+if (!isset($_SESSION['user_ID']) && !isset($_SESSION['admin_ID'])) {
+    header("Location: login.php");
+    die;
+}
 
 // Fetching reviews from the database
 $query = "SELECT name_of_the_counselor, review FROM reviews";
@@ -26,6 +32,7 @@ $result = mysqli_query($con, $query);
         <li><a href="#contact">Contact</a></li>
         <li><a href="http://localhost/sax/experts.php">Experts</a></li>
         <li><a href="http://localhost/sax/appointments.php">Appointment</a></li>
+        <li><a href="http://localhost/sax/actions.php">More Options</a></li>
         <li><a href="http://localhost/sax/logout.php">Logout</a></li>
     </ul>
 </nav>
@@ -35,11 +42,6 @@ $result = mysqli_query($con, $query);
     <div class="content">
         <h1>Memorial - a premier healthcare facility dedicated to providing medical care to our community</h1>
         <p>Welcome to Memorial, your comprehensive resource for connecting with top-tier doctors. 'Putting Patients First' is not just our motto; it is our way of life. Our journey began with a vision to deliver compassionate and high-quality services to our patients and visitors.</p>
-
-        <div class="buttons">
-            <button><a href="http://localhost/sax/experts.php">Find Experts</a></button>
-            <button><a href="http://localhost/sax/actions.php">Patient</a></button> 
-        </div>
     </div>
 </section>
 
@@ -82,10 +84,9 @@ $result = mysqli_query($con, $query);
 
 
 <?php
+// Closing the database connection
 mysqli_close($con);
 ?>
-
-
 
 <!-- Stylesheet (CSS) -->
 <style type='text/css'>

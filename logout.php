@@ -1,12 +1,15 @@
 <?php
-
 session_start();
 
-if(isset($_SESSION['user_id']))
-{
-	unset($_SESSION['user_id']);
+// Check if the session is active
+if (session_status() === PHP_SESSION_ACTIVE) {
+    // Unset all session variables
+    $_SESSION = array();
 
+    // Destroy the session
+    session_destroy();
 }
 
+// Redirect to the login page
 header("Location: login.php");
-die;
+exit;

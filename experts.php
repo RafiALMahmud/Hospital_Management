@@ -1,6 +1,22 @@
 <?php
 session_start();
-$_SESSION;
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "login_db"; // Replace with your database name
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch data from doctors table
+$sql = "SELECT name, speciality, address FROM doctors";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -140,37 +156,22 @@ $_SESSION;
     <section id="experts">
         <h2>Our Experts</h2>
 
-        <!-- Expert 1 -->
-        <section class="expert" id="expert1">
-            <h3>Dr. Shamim Hasan</h3>
-            <p>Gastroliver</p>
-            <p>Specializes in Gastroenterology & Liver diseases.</p>
-            <button><a href="http://localhost/sax/booker.php">Book an appointment</a></button>
-        </section>
-
-        <!-- Expert 2 -->
-        <section class="expert" id="expert2">
-            <h3>Dr. Imran Azad</h3>
-            <p>Cancer</p>
-            <p>Focuses on Cancer curing.</p>
-            <button><a href="/sax/booker.php">Book an appointment</a></button>
-        </section>
-
-        <!-- Expert 3 -->
-        <section class="expert" id="expert3">
-            <h3>Dr. Emily Rahman</h3>
-            <p>Licensed Counselor</p>
-            <p>Provides individual and group counseling for stress management.</p>
-            <button><a href="/sax/booker.php">Book an appointment</a></button>
-        </section>
-
-        <!-- Expert 4 -->
-        <section class="expert" id="expert4">
-            <h3>Dr. Mark Johnson</h3>
-            <p>Neurologist</p>
-            <p>Specialized brain surgeon focusing on neurological disorders.</p>
-            <button><a href="/sax/booker.php">Book an appointment</a></button>
-        </section>
+        <?php
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while($row = $result->fetch_assoc()) {
+                echo '<section class="expert">';
+                echo '<h3>' . $row["name"] . '</h3>';
+                echo '<p>' . $row["speciality"] . '</p>';
+                echo '<p>' . $row["address"] . '</p>';
+                echo '<button><a href="/sax/booker.php">Book an appointment</a></button>';
+                echo '</section>';
+            }
+        } else {
+            echo "0 results";
+        }
+        $conn->close();
+        ?>
     </section>
 </body>
 </html>

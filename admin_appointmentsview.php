@@ -86,8 +86,16 @@ if ($result && mysqli_num_rows($result) > 0) {
         .appointment button:hover {
             background-color: #c82333;
         }
-
     </style>
+    <script>
+        // Confirmation before deleting an appointment
+        function confirmDeletion(event) {
+            const isConfirmed = confirm("Are you sure you want to delete this appointment?");
+            if (!isConfirmed) {
+                event.preventDefault(); // Prevent form submission if the user cancels
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -104,7 +112,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 echo '</div>';
                 
                 // Delete button with a form
-                echo '<form method="POST" action="delete_appointments.php" style="margin: 0;">'; // Updated here
+                echo '<form method="POST" action="delete_appointments.php" style="margin: 0;" onsubmit="confirmDeletion(event)">'; // Updated here
                 echo '<input type="hidden" name="serial_number" value="' . htmlspecialchars($appointment['serial_number']) . '">';
                 echo '<button type="submit">Delete</button>';
                 echo '</form>';

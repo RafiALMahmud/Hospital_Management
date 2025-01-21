@@ -35,11 +35,11 @@ $page = basename($_SERVER['PHP_SELF']); // Get current page name
             <button><a href="http://localhost/sax/admit_patient.php">Admit</a></button>
         </section>
 
-        <!-- Button 2: Appointment List -->
-        <section class="action" id="appointment-list">
-            <h3>Appointment List</h3>
-            <p>View the list of all scheduled appointments.</p>
-            <button><a href="http://localhost/sax/appointments.php">Appointment List</a></button>
+        <!-- Button 2: Book an Appointment -->
+        <section class="action" id="book-appointment">
+            <h3>Book an Appointment</h3>
+            <p>Book an appointment with a counselor.</p>
+            <button><a href="http://localhost/sax/booker.php">Book an Appointment</a></button>
         </section>
 
         <!-- Button 3: Write a Review -->

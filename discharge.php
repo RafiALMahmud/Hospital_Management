@@ -1,8 +1,11 @@
 <?php
+// Include database connection
 include("connection.php");
 
+// Initialize an array to hold patient data
 $patients = [];
 
+// Fetch existing patients in rooms
 $query = "SELECT r.room_no, r.type AS room_type, p.name, r.patient_id 
           FROM rooms r 
           JOIN patients p ON r.patient_id = p.patient_id 
@@ -10,10 +13,11 @@ $query = "SELECT r.room_no, r.type AS room_type, p.name, r.patient_id
 
 if ($result = $con->query($query)) {
     while ($row = $result->fetch_assoc()) {
-        $patients[] = $row; 
+        $patients[] = $row; // Store patients in the array
     }
 }
 
+// Handle discharge action
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['discharge_id'])) {
     $patient_id = $_POST['discharge_id'];
     $discharge_time = date('Y-m-d H:i:s'); // Current timestamp
@@ -34,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['discharge_id'])) {
     }
 }
 
+// Close the connection
 mysqli_close($con);
 ?>
 
